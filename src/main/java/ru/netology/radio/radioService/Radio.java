@@ -1,50 +1,86 @@
 package ru.netology.radio.radioService;
 
 public class Radio {
-    public int currentRadioStation;
-    public int soundVolume;
+
+    private int currentRadioStation;
+    private int soundVolume;
+    private int minVolume = 0;
+    private int maxVolume = 100;
+    private int minStation = 0;
+    private int lastStation;
+
+    public Radio(){
+        lastStation = 9;
+    }
+    public Radio(int stationCont){
+        lastStation = stationCont -1;
+    }
+    public int getMaxStation(){
+        return lastStation;
+    }
 
     public int getCurrentRadioStation(){
+
         return currentRadioStation;
     }
 
     public void setCurrentRadioStation(int newCurrentRadioStation){
-        if (newCurrentRadioStation > 9){
+        if (newCurrentRadioStation > lastStation){
             return;
         }
-        if (newCurrentRadioStation < 0){
+        if (newCurrentRadioStation < minStation){
             return;
         }
         currentRadioStation = newCurrentRadioStation;
     }
+
+
     public int nextStation(){
-        if (currentRadioStation <= 9) {
-            currentRadioStation = currentRadioStation + 1;
+        if (currentRadioStation < lastStation) {
+            currentRadioStation++;
         }
-        if (currentRadioStation > 9){
-            currentRadioStation = 0;
+        if (currentRadioStation == lastStation){
+            currentRadioStation++;
+        }
+        if (currentRadioStation > lastStation){
+            currentRadioStation = minStation;
+        }
+        return currentRadioStation;
+        }
+    public int prevStation(){
+        if (currentRadioStation > minStation){
+            currentRadioStation--;
+        }
+        if (currentRadioStation == minStation){
+            currentRadioStation--;
+        }
+        if (currentRadioStation < minStation){
+            currentRadioStation = lastStation;
         }
         return currentRadioStation;
     }
-    public int prevStation(){
-        if (currentRadioStation >= 0){
-            currentRadioStation = currentRadioStation - 1;
+    public int getSoundVolume(){
+        return soundVolume;
+    }
+    public void setSoundVolume(int newsoundVolume){
+       if (newsoundVolume > maxVolume){
+           return;
+       }
+       if (newsoundVolume < minVolume){
+            return;
         }
-        if (currentRadioStation < 0){
-            currentRadioStation = 9;
-        }
-        return currentRadioStation;
+        soundVolume = newsoundVolume;
     }
 
     public int increaseVolume(){
-        if (soundVolume < 10){
-            soundVolume = soundVolume + 1;
+        if (soundVolume < maxVolume){
+            soundVolume++;
         }
         return soundVolume;
     }
     public int decreaseVolume(){
-        if (soundVolume > 0){
-            soundVolume = soundVolume - 1;
+        if (soundVolume > minVolume){
+            soundVolume--;
         }
         return soundVolume;
     }
